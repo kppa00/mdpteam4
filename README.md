@@ -13,10 +13,12 @@
 - AI : Raspberry Pi 5(Python)
 - Firmware : STM32(C)
 - APP : Android 10(Kotlin)
+- DB : MySQL
 ## ⏰ 개발 기간
 - 기획 : 2024.03.05 ~ 2024.03.19
 - 부품선정(소모품신청) : 2024.03.19 ~ 2024.03.21
 - 설계 : 2024.03.19 ~ 2024.xx.xx
+  - 기구도, 블럭도, 순서도, 설계도, DB : 2024.03.26 ~ 2024.xx.xx
 - 개발 : 2024.xx.xx ~ 2024.xx.xx
   - HW 제작 : 2024.xx.xx ~ 2024.xx.xx
   - SW 코딩 : 2024.xx.xx ~ 2024.xx.xx
