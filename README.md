@@ -10,9 +10,9 @@
 - 음료의 라벨이 잘 붙어져 나왔는가
 - 음료 병 안에 내용물 정량이 들어가 있는가
 ### ⚙ 개발 환경
-- AI : Raspberry Pi 5(Python)
-- Firmware : STM32(C)
-- APP : Android 10(Kotlin)
+- AI : Raspberry Pi 5 (Python)
+- Firmware : STM32 (C)
+- APP : Android 1x (Kotlin)
 - DB : MySQL
 ## ⏰ 개발 기간
 - 기획 : 2024.03.05 ~ 2024.03.19
