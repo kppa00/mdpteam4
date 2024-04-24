@@ -26,13 +26,6 @@ class Permission(private val context: Context) {
         return sInstance
     }
 
-    fun getInstance(context: Context): Permission? {
-        if (permission == null) {
-            permission = Permission(context)
-        }
-        return permission
-    }
-
     fun requestBluetoothPermission() {
         if (checkSelfPermission(
                 context,
