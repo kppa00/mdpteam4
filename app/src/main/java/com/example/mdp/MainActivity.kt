@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // Permission 클래스에 있는 콜백 호출
         permissionClass?.onRequestPermissionsResult(requestCode, grantResults)
     }
 }
