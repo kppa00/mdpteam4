@@ -9,10 +9,22 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
+import kotlin.concurrent.Volatile
 
 class Permission(private val context: Context) {
 
-    private var permission: Permission? = null
+    @Volatile
+    private var sInstance: Permission? = null
+    fun getInstance(): Permission? {
+        if (sInstance == null) {
+            synchronized(Permission::class.java) {
+                if (sInstance == null) {
+                    sInstance = Permission(context)
+                }
+            }
+        }
+        return sInstance
+    }
 
     fun getInstance(context: Context): Permission? {
         if (permission == null) {
@@ -50,7 +62,6 @@ class Permission(private val context: Context) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 println("grant")
             } else {
-                println("deny")
                 explainBluetoothPermissionRationale()
             }
         }
