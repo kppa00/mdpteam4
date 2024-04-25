@@ -1,4 +1,4 @@
-package com.example.mdp
+package com.hyualy.mdp
 
 import org.junit.Test
 

@@ -1,12 +1,13 @@
-package com.example.mdp
+package com.hyualy.mdp
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import kotlin.concurrent.Volatile
@@ -60,14 +61,15 @@ class Permission(private val context: Context) {
         }
     }
 
-    private var deniedCount = 0
 
     private fun explainBluetoothPermissionRationale() {
-        println(deniedCount.toString())
+        val sharedPref: SharedPreferences = context.getSharedPreferences("permission_count", Context.MODE_PRIVATE)
+        val bluetoothDeniedCount = sharedPref.getInt("bluetooth", Context.MODE_PRIVATE)
+        println(bluetoothDeniedCount.toString())
         val builder = AlertDialog.Builder(context)
         builder.setTitle("서비스 이용 알림")
-        if (deniedCount < 1) {
-            deniedCount++
+        if (bluetoothDeniedCount < 1) {
+            sharedPref.edit().putInt("bluetooth", bluetoothDeniedCount + 1).apply()
             builder.setMessage("정상적인 서비스 사용을 위한 필수 권한입니다.\n권한 요청을 반드시 허용해주세요.")
             builder.setPositiveButton("권한 재요청") { _, _ ->
                 requestBluetoothPermission()

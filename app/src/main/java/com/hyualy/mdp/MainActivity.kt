@@ -1,5 +1,6 @@
-package com.example.mdp
+package com.hyualy.mdp
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val bluetoothImg = findViewById<ImageView>(R.id.bluetooth_img)
         bluetoothImg.setOnClickListener {
-            permissionClass?.requestBluetoothPermission()
+            if (checkSelfPermission(android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                permissionClass?.requestBluetoothPermission()
+            }
         }
     }
 

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mdp"
+    namespace = "com.hyualy.mdp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.mdp"
+        applicationId = "com.hyualy.mdp"
         minSdk = 31
         targetSdk = 34
         versionCode = 1
