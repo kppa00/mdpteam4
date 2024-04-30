@@ -1,4 +1,4 @@
-package com.hyualy.mdp
+package com.hyualy.mdp.manager
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -42,7 +42,7 @@ class Permission(private val context: Context) {
                 arrayOf(
                     android.Manifest.permission.BLUETOOTH_SCAN,
                     android.Manifest.permission.BLUETOOTH_CONNECT,
-                ), 1
+                ), 0
             )
             return
         }
@@ -52,7 +52,7 @@ class Permission(private val context: Context) {
         requestCode: Int,
         grantResults: IntArray
     ) {
-        if (requestCode == 1) {
+        if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 println("grant")
             } else {
@@ -60,7 +60,6 @@ class Permission(private val context: Context) {
             }
         }
     }
-
 
     private fun explainBluetoothPermissionRationale() {
         val sharedPref: SharedPreferences = context.getSharedPreferences("permission_count", Context.MODE_PRIVATE)
