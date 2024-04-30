@@ -8,8 +8,6 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.startActivityForResult
 
@@ -17,8 +15,6 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 class Bluetooth(private val context: Context) {
 
     private val bluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
-    private lateinit var deviceListView: ListView
-    private lateinit var deviceArrayAdapter: ArrayAdapter<String>
 
     fun scanBluetoothDiscovery() {
         if (bluetoothAdapter == null) {
