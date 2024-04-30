@@ -17,10 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MDP">
         <activity
-            android:name=".activity.HelloActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
