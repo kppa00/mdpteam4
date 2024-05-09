@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MDP">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.LobbyActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -26,6 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.RegisterActivity"
             android:exported="true" />
