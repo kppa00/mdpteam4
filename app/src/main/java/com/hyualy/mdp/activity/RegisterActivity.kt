@@ -1,7 +1,7 @@
 package com.hyualy.mdp.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
 
 class RegisterActivity : AppCompatActivity() {
