@@ -13,13 +13,12 @@ import androidx.fragment.app.FragmentActivity
 import com.hyualy.mdp.R
 import com.hyualy.mdp.fragment.AccountFragment
 import com.hyualy.mdp.util.BluetoothUtil
-import com.hyualy.mdp.util.BluetoothUtil.Companion.isBluetoothRequestInProgress
 
 
 class Bluetooth(private val context: Context) : BroadcastReceiver() {
 
     private val bluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
-    private val bluetoothUtil: BluetoothUtil = BluetoothUtil(context).getInstance()!!
+    private val bluetoothUtil = BluetoothUtil(context).getInstance()!!
 
     fun scanBluetoothDiscovery() {
         if (bluetoothAdapter == null) {
@@ -33,22 +32,19 @@ class Bluetooth(private val context: Context) : BroadcastReceiver() {
     private fun startBluetoothDiscovery() {
         if (!bluetoothAdapter.isEnabled) {
             bluetoothUtil.requestEnableBluetooth()
-            println(isBluetoothRequestInProgress.toString())
         } else {
-//            if (!bluetoothUtil.isDeviceConnected("pi")) {
-//                bluetoothUtil.openBluetoothSettings()
-//            } else {
-//                PermissionFragment().swapNextFragment()
-//            }
-            (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.lobby_fragment, AccountFragment())
-                .commit()
+            if (bluetoothUtil.getDeviceConnected("pi") != null) {
+                bluetoothUtil.openBluetoothSettings()
+            } else {
+                (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.lobby_fragment, AccountFragment())
+                    .commit()
+            }
         }
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == 1) {
-            println(isBluetoothRequestInProgress.toString())
             if (resultCode == RESULT_OK) {
                 startBluetoothDiscovery()
                 bluetoothUtil.onBluetoothRequestResult()
@@ -61,11 +57,9 @@ class Bluetooth(private val context: Context) : BroadcastReceiver() {
                 builder.setPositiveButton("블루투스 재요청") { _, _ ->
                     bluetoothUtil.requestEnableBluetooth()
                     bluetoothUtil.onBluetoothRequestResult()
-                    println(isBluetoothRequestInProgress.toString())
                 }
                 builder.setNegativeButton("닫기") { _, _ ->
                     bluetoothUtil.onBluetoothRequestResult()
-                    println(isBluetoothRequestInProgress.toString())
                 }
                 val dialog = builder.create()
                 dialog.show()

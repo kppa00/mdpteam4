@@ -29,7 +29,7 @@ class BluetoothUtil(private val context: Context) {
     }
 
     companion object {
-        var isBluetoothRequestInProgress = false
+        private var isBluetoothRequestInProgress = false
     }
 
     fun requestEnableBluetooth() {
@@ -50,16 +50,16 @@ class BluetoothUtil(private val context: Context) {
     }
 
     @SuppressLint("MissingPermission")
-    fun isDeviceConnected(deviceName: String): Boolean {
+    fun getDeviceConnected(deviceName: String): BluetoothDevice? {
         val connectedDevices = bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET)
         if (connectedDevices == BluetoothProfile.STATE_CONNECTED) {
             val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
             pairedDevices?.forEach { device ->
                 if (device.name == deviceName) {
-                    return true
+                    return device
                 }
             }
         }
-        return false
+        return null
     }
 }
