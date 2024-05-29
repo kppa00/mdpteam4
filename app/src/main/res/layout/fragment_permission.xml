@@ -6,6 +6,87 @@
     android:layout_height="match_parent"
     tools:context=".activity.LobbyActivity">
 
+    <ImageView
+        android:id="@+id/lobby_permission_app_logo"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="190dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ai_factory_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/lobby_permission_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="AI Factory 이용을 위해\n아래 권한을 허용해 주세요."
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/lobby_permission_app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/lobby_permission_line"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="#DADADA"
+        app:layout_constraintTop_toBottomOf="@id/lobby_permission_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/lobby_permission_bluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/baseline_bluetooth_24"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintTop_toBottomOf="@id/lobby_permission_line"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/lobby_permission_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:text="블루투스"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/lobby_permission_line"
+        app:layout_constraintStart_toEndOf="@id/lobby_permission_bluetooth" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:text="앱에 로그인 및 회원가입과\n기기를 제어하기 위해 권한이 필요합니다."
+        android:textSize="17sp"
+        android:textColor="#8F8F8F"
+        app:layout_constraintTop_toBottomOf="@id/lobby_permission_text2"
+        app:layout_constraintStart_toEndOf="@id/lobby_permission_bluetooth" />
+
+    <Button
+        android:id="@+id/lobby_start_start"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="80dp"
+        android:text="다음"
+        android:textSize="27sp"
+        android:background="@drawable/gradient"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

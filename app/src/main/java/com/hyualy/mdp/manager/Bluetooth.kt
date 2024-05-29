@@ -1,63 +1,84 @@
 package com.hyualy.mdp.manager
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.fragment.app.FragmentActivity
+import com.hyualy.mdp.R
+import com.hyualy.mdp.fragment.AccountFragment
+import com.hyualy.mdp.util.BluetoothUtil
+import com.hyualy.mdp.util.BluetoothUtil.Companion.isBluetoothRequestInProgress
 
 
-class Bluetooth(private val context: Context) {
+class Bluetooth(private val context: Context) : BroadcastReceiver() {
 
     private val bluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
+    private val bluetoothUtil: BluetoothUtil = BluetoothUtil(context).getInstance()!!
 
     fun scanBluetoothDiscovery() {
         if (bluetoothAdapter == null) {
             Toast.makeText(context, "블루투스를 지원하지 않는 기기입니다.", Toast.LENGTH_SHORT).show()
         } else {
-            if (!bluetoothAdapter.isEnabled) {
-                println("clicked")
-                requestEnableBluetooth()
-            } else {
-                startBluetoothDiscovery()
-            }
+            startBluetoothDiscovery()
         }
     }
 
-    private fun openBluetoothSettings() {
-        val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-        context.startActivity(intent)
-    }
-
+    @SuppressLint("MissingPermission")
     private fun startBluetoothDiscovery() {
-        openBluetoothSettings()
-    }
-
-    private fun requestEnableBluetooth() {
-        val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-        startActivityForResult(context as Activity, enableBluetoothIntent, 1, null)
+        if (!bluetoothAdapter.isEnabled) {
+            bluetoothUtil.requestEnableBluetooth()
+            println(isBluetoothRequestInProgress.toString())
+        } else {
+//            if (!bluetoothUtil.isDeviceConnected("pi")) {
+//                bluetoothUtil.openBluetoothSettings()
+//            } else {
+//                PermissionFragment().swapNextFragment()
+//            }
+            (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.lobby_fragment, AccountFragment())
+                .commit()
+        }
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int) {
         if (requestCode == 1) {
+            println(isBluetoothRequestInProgress.toString())
             if (resultCode == RESULT_OK) {
                 startBluetoothDiscovery()
+                bluetoothUtil.onBluetoothRequestResult()
                 Toast.makeText(context, "블루투스 활성화", Toast.LENGTH_SHORT).show()
             } else {
                 val builder = AlertDialog.Builder(context)
+                builder.setCancelable(false)
                 builder.setTitle("서비스 이용 알림")
                 builder.setMessage("정상적인 서비스 사용을 위해 블루투스 허용이 필요합니다.\n요청을 반드시 허용해주세요.")
                 builder.setPositiveButton("블루투스 재요청") { _, _ ->
-                    requestEnableBluetooth()
+                    bluetoothUtil.requestEnableBluetooth()
+                    bluetoothUtil.onBluetoothRequestResult()
+                    println(isBluetoothRequestInProgress.toString())
                 }
-                builder.setNegativeButton("닫기") { _, _ -> }
+                builder.setNegativeButton("닫기") { _, _ ->
+                    bluetoothUtil.onBluetoothRequestResult()
+                    println(isBluetoothRequestInProgress.toString())
+                }
                 val dialog = builder.create()
                 dialog.show()
+            }
+        }
+    }
+
+    override fun onReceive(context: Context, intent: Intent) {
+        val action = intent.action
+        if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+            val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
+            if (state == BluetoothAdapter.STATE_ON) {
+                startBluetoothDiscovery()
             }
         }
     }

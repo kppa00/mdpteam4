@@ -54,7 +54,7 @@ class Permission(private val context: Context) {
     ) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                println("grant")
+                Bluetooth(context).scanBluetoothDiscovery()
             } else {
                 explainBluetoothPermissionRationale()
             }
