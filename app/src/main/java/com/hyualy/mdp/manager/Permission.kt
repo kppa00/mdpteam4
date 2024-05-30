@@ -40,6 +40,8 @@ class Permission(private val context: Context) {
             requestPermissions(
                 context as Activity,
                 arrayOf(
+                    android.Manifest.permission.BLUETOOTH,
+                    android.Manifest.permission.BLUETOOTH_ADMIN,
                     android.Manifest.permission.BLUETOOTH_SCAN,
                     android.Manifest.permission.BLUETOOTH_CONNECT,
                 ), 0
@@ -53,7 +55,7 @@ class Permission(private val context: Context) {
         grantResults: IntArray
     ) {
         if (requestCode == 0) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Bluetooth(context).scanBluetoothDiscovery()
             } else {
                 explainBluetoothPermissionRationale()

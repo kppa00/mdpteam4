@@ -33,7 +33,8 @@ class Bluetooth(private val context: Context) : BroadcastReceiver() {
         if (!bluetoothAdapter.isEnabled) {
             bluetoothUtil.requestEnableBluetooth()
         } else {
-            if (bluetoothUtil.getDeviceConnected("pi") != null) {
+            println(bluetoothUtil.getConnectedDevices())
+            if (bluetoothUtil.getConnectedDevices().isEmpty()) {
                 bluetoothUtil.openBluetoothSettings()
             } else {
                 (context as FragmentActivity).supportFragmentManager.beginTransaction()

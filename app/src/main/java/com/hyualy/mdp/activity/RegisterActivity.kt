@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
         val btnRegister = findViewById<Button>(R.id.register_register)
         btnRegister.setOnClickListener {
             val bluetoothUtil = BluetoothUtil(this).getInstance()!!
-//            val device = bluetoothUtil.getDeviceConnected("pi")!!
+//            val device = bluetoothUtil.getConnectedDevices()
 
             val id = findViewById<EditText>(R.id.register_id).text
             val password = findViewById<EditText>(R.id.register_password).text

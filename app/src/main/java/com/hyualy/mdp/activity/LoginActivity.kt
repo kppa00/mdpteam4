@@ -28,7 +28,12 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.login_login)
         btnLogin.setOnClickListener {
             val bluetoothUtil = BluetoothUtil(this).getInstance()!!
-//            val device = bluetoothUtil.getDeviceConnected("pi")!!
+            val devices = bluetoothUtil.getConnectedDevices()
+            if (devices.isNotEmpty()) {
+                for (device in devices) {
+                    Toast.makeText(this, device.address, Toast.LENGTH_SHORT).show()
+                }
+            }
 
             val id = findViewById<EditText>(R.id.login_id).text
             val password = findViewById<EditText>(R.id.login_password).text

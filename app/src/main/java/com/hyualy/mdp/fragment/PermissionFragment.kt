@@ -32,7 +32,7 @@ class PermissionFragment : Fragment() {
         btnStart.setOnClickListener {
             val activity = activity as? LobbyActivity
             if (activity != null) {
-                if (checkSelfPermission(activity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     Permission(activity).requestBluetoothPermission()
                 } else {
                     Bluetooth(activity).scanBluetoothDiscovery()

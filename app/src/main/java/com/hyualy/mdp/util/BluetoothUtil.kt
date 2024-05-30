@@ -1,6 +1,6 @@
 package com.hyualy.mdp.util
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -8,11 +8,13 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 
 class BluetoothUtil(private val context: Context) {
 
+    private val bluetoothManager = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager)
     private val bluetoothAdapter = (context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
 
     @Volatile
@@ -49,17 +51,33 @@ class BluetoothUtil(private val context: Context) {
         context.startActivity(intent)
     }
 
-    @SuppressLint("MissingPermission")
-    fun getDeviceConnected(deviceName: String): BluetoothDevice? {
-        val connectedDevices = bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET)
-        if (connectedDevices == BluetoothProfile.STATE_CONNECTED) {
-            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
-            pairedDevices?.forEach { device ->
-                if (device.name == deviceName) {
-                    return device
+    fun getConnectedDevices(): List<BluetoothDevice> {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val connectedDevices = mutableListOf<BluetoothDevice>()
+
+            if (bluetoothAdapter != null && bluetoothAdapter.isEnabled) {
+                val profiles = listOf(BluetoothProfile.HEADSET, BluetoothProfile.SAP,
+                    BluetoothProfile.LE_AUDIO, BluetoothProfile.STATE_CONNECTED,
+                    BluetoothProfile.HID_DEVICE, BluetoothProfile.A2DP,
+                    BluetoothProfile.CSIP_SET_COORDINATOR, BluetoothProfile.GATT,
+                    BluetoothProfile.HEARING_AID, BluetoothProfile.STATE_DISCONNECTED,
+                    BluetoothProfile.STATE_DISCONNECTING, BluetoothProfile.STATE_CONNECTING)
+
+                for (profile in profiles) {
+                    bluetoothAdapter.getProfileConnectionState(profile)
+//                    val devices = bluetoothManager.getConnectedDevices(profile)
+//                    connectedDevices.addAll(devices)
+                    println(bluetoothAdapter.getProfileConnectionState(profile).toString())
                 }
             }
+            return connectedDevices
+        } else {
+            println("permission error")
         }
-        return null
+        return listOf()
     }
 }
