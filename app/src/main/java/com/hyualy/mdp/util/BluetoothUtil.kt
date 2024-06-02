@@ -1,6 +1,6 @@
 package com.hyualy.mdp.util
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 
@@ -51,33 +50,17 @@ class BluetoothUtil(private val context: Context) {
         context.startActivity(intent)
     }
 
-    fun getConnectedDevices(): List<BluetoothDevice> {
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val connectedDevices = mutableListOf<BluetoothDevice>()
-
-            if (bluetoothAdapter != null && bluetoothAdapter.isEnabled) {
-                val profiles = listOf(BluetoothProfile.HEADSET, BluetoothProfile.SAP,
-                    BluetoothProfile.LE_AUDIO, BluetoothProfile.STATE_CONNECTED,
-                    BluetoothProfile.HID_DEVICE, BluetoothProfile.A2DP,
-                    BluetoothProfile.CSIP_SET_COORDINATOR, BluetoothProfile.GATT,
-                    BluetoothProfile.HEARING_AID, BluetoothProfile.STATE_DISCONNECTED,
-                    BluetoothProfile.STATE_DISCONNECTING, BluetoothProfile.STATE_CONNECTING)
-
-                for (profile in profiles) {
-                    bluetoothAdapter.getProfileConnectionState(profile)
-//                    val devices = bluetoothManager.getConnectedDevices(profile)
-//                    connectedDevices.addAll(devices)
-                    println(bluetoothAdapter.getProfileConnectionState(profile).toString())
+    @SuppressLint("MissingPermission")
+    fun getConnectedDevices(): BluetoothDevice? {
+        val connectionState = bluetoothAdapter.getProfileConnectionState(BluetoothProfile.HEADSET)
+        if (connectionState == BluetoothProfile.STATE_CONNECTED) {
+            val devices = bluetoothAdapter.bondedDevices
+            for (device in devices) {
+                if (device.name == "aifactory") {
+                    return device
                 }
             }
-            return connectedDevices
-        } else {
-            println("permission error")
         }
-        return listOf()
+        return null
     }
 }

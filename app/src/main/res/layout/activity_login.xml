@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="혹은"
-        android:layout_marginStart="180dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_login" />

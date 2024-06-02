@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothSocket
 import android.util.Log
 import java.io.IOException
 import java.io.InputStream
-import java.io.OutputStream
 import java.util.UUID
 
 class BluetoothRxTx(
@@ -60,20 +59,22 @@ fun receiveBluetoothData(device: BluetoothDevice, callback: (String) -> Unit) {
 @SuppressLint("MissingPermission")
 fun sendData(device: BluetoothDevice, data: String) {
     val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-    val socket = device.createRfcommSocketToServiceRecord(uuid)
-
+    var socket: BluetoothSocket? = null
     try {
+        socket = device.createRfcommSocketToServiceRecord(uuid)
         socket.connect()
-        val outputStream: OutputStream = socket.outputStream
+
+        val outputStream = socket.outputStream
         outputStream.write(data.toByteArray())
-        outputStream.close()
+        outputStream.flush()
     } catch (e: IOException) {
-        Log.e("BluetoothManager", "Error sending data", e)
+        e.printStackTrace()
+        throw IOException("Error sending data", e)
     } finally {
         try {
-            socket.close()
+            socket?.close()
         } catch (e: IOException) {
-            Log.e("BluetoothManager", "Could not close the client socket", e)
+            e.printStackTrace()
         }
     }
 }

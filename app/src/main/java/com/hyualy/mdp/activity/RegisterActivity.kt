@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
 import com.hyualy.mdp.util.BluetoothUtil
+import sendData
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +20,7 @@ class RegisterActivity : AppCompatActivity() {
         val btnRegister = findViewById<Button>(R.id.register_register)
         btnRegister.setOnClickListener {
             val bluetoothUtil = BluetoothUtil(this).getInstance()!!
-//            val device = bluetoothUtil.getConnectedDevices()
+            val device = bluetoothUtil.getConnectedDevices()!!
 
             val id = findViewById<EditText>(R.id.register_id).text
             val password = findViewById<EditText>(R.id.register_password).text
@@ -29,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if (listOf(id, password, checkPassword, name, email).all { it.isNotEmpty() }) {
                 if (password == checkPassword) {
-//                    sendData(device, "Register/$id/$password/$name/$email")
+                    sendData(device, "register/$id/$password/$name/$email")
 //
 //                    receiveBluetoothData(device) { data ->
 //                        Log.d("BluetoothData", "Received data: $data")
