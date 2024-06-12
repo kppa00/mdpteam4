@@ -1,11 +1,9 @@
 package com.hyualy.mdp.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
 import com.hyualy.mdp.fragment.StartFragment
-import com.hyualy.mdp.manager.Bluetooth
 import com.hyualy.mdp.manager.Permission
 import com.hyualy.mdp.util.Util
 
@@ -28,11 +26,5 @@ class LobbyActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         permissionClass?.onRequestPermissionsResult(requestCode, grantResults)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Bluetooth(this).onActivityResult(requestCode, resultCode)
     }
 }

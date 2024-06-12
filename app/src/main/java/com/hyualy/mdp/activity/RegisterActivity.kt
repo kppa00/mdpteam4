@@ -6,8 +6,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
-import com.hyualy.mdp.util.BluetoothUtil
-import sendData
+import com.hyualy.mdp.manager.Wifi
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,8 +18,6 @@ class RegisterActivity : AppCompatActivity() {
     private fun settingButton() {
         val btnRegister = findViewById<Button>(R.id.register_register)
         btnRegister.setOnClickListener {
-            val bluetoothUtil = BluetoothUtil(this).getInstance()!!
-            val device = bluetoothUtil.getConnectedDevices()!!
 
             val id = findViewById<EditText>(R.id.register_id).text
             val password = findViewById<EditText>(R.id.register_password).text
@@ -30,10 +27,9 @@ class RegisterActivity : AppCompatActivity() {
 
             if (listOf(id, password, checkPassword, name, email).all { it.isNotEmpty() }) {
                 if (password == checkPassword) {
-                    sendData(device, "register/$id/$password/$name/$email")
-//
-//                    receiveBluetoothData(device) { data ->
-//                        Log.d("BluetoothData", "Received data: $data")
+                    Wifi.sendData("192.168.198.75", "register/$id/$password/$name/$email")
+//                    Wifi.receiveData { data ->
+//                        Log.d("WifiData", "Received data: $data")
 //                    }
                 } else {
                     Toast.makeText(this, "비밀번호가 같지 않습니다.", Toast.LENGTH_SHORT).show()

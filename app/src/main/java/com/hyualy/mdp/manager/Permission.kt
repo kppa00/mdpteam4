@@ -27,23 +27,17 @@ class Permission(private val context: Context) {
         return sInstance
     }
 
-    fun requestBluetoothPermission() {
+    fun requestPermission() {
         if (checkSelfPermission(
                 context,
-                android.Manifest.permission.BLUETOOTH_SCAN
-            ) != PackageManager.PERMISSION_GRANTED ||
-            checkSelfPermission(
-                context,
-                android.Manifest.permission.BLUETOOTH_CONNECT
+                android.Manifest.permission.ACCESS_NETWORK_STATE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissions(
                 context as Activity,
                 arrayOf(
-                    android.Manifest.permission.BLUETOOTH,
-                    android.Manifest.permission.BLUETOOTH_ADMIN,
-                    android.Manifest.permission.BLUETOOTH_SCAN,
-                    android.Manifest.permission.BLUETOOTH_CONNECT,
+                    android.Manifest.permission.ACCESS_NETWORK_STATE,
+                    android.Manifest.permission.INTERNET
                 ), 0
             )
             return
@@ -56,14 +50,14 @@ class Permission(private val context: Context) {
     ) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Bluetooth(context).scanBluetoothDiscovery()
+                Wifi.requestEnableWifi(context)
             } else {
-                explainBluetoothPermissionRationale()
+                explainPermissionRationale()
             }
         }
     }
 
-    private fun explainBluetoothPermissionRationale() {
+    private fun explainPermissionRationale() {
         val sharedPref: SharedPreferences = context.getSharedPreferences("permission_count", Context.MODE_PRIVATE)
         val bluetoothDeniedCount = sharedPref.getInt("bluetooth", Context.MODE_PRIVATE)
         println(bluetoothDeniedCount.toString())
@@ -73,7 +67,7 @@ class Permission(private val context: Context) {
             sharedPref.edit().putInt("bluetooth", bluetoothDeniedCount + 1).apply()
             builder.setMessage("정상적인 서비스 사용을 위한 필수 권한입니다.\n권한 요청을 반드시 허용해주세요.")
             builder.setPositiveButton("권한 재요청") { _, _ ->
-                requestBluetoothPermission()
+                requestPermission()
             }
         } else {
             builder.setMessage("정상적인 서비스 사용을 위한 필수 권한입니다.\n권한 허용을 위해 설정화면으로 이동합니다.")

@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import com.hyualy.mdp.R
 import com.hyualy.mdp.activity.LobbyActivity
-import com.hyualy.mdp.manager.Bluetooth
 import com.hyualy.mdp.manager.Permission
 
 class PermissionFragment : Fragment() {
@@ -32,10 +31,12 @@ class PermissionFragment : Fragment() {
         btnStart.setOnClickListener {
             val activity = activity as? LobbyActivity
             if (activity != null) {
-                if (checkSelfPermission(activity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    Permission(activity).requestBluetoothPermission()
+                if (checkSelfPermission(activity, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    Permission(activity).requestPermission()
                 } else {
-                    Bluetooth(activity).scanBluetoothDiscovery()
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.lobby_fragment, AccountFragment())
+                        .commit()
                 }
             }
         }
