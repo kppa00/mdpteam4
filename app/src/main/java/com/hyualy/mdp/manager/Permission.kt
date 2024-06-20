@@ -28,19 +28,26 @@ class Permission(private val context: Context) {
     }
 
     fun requestPermission() {
-        if (checkSelfPermission(
-                context,
-                android.Manifest.permission.ACCESS_NETWORK_STATE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        val permissions = arrayOf(
+            android.Manifest.permission.ACCESS_WIFI_STATE,
+            android.Manifest.permission.ACCESS_NETWORK_STATE,
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        var isPermissionsGranted = true
+        permissions.forEach {
+            if (checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED) {
+                isPermissionsGranted = false
+            }
+        }
+        if (isPermissionsGranted) {
             requestPermissions(
                 context as Activity,
-                arrayOf(
-                    android.Manifest.permission.ACCESS_NETWORK_STATE,
-                    android.Manifest.permission.INTERNET
-                ), 0
+                permissions,
+                0
             )
-            return
+        } else {
+            Wifi.requestEnableWifi(context)
         }
     }
 

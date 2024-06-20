@@ -1,13 +1,10 @@
 package com.hyualy.mdp.fragment
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import com.hyualy.mdp.R
 import com.hyualy.mdp.activity.LobbyActivity
@@ -31,13 +28,7 @@ class PermissionFragment : Fragment() {
         btnStart.setOnClickListener {
             val activity = activity as? LobbyActivity
             if (activity != null) {
-                if (checkSelfPermission(activity, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-                    Permission(activity).requestPermission()
-                } else {
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.lobby_fragment, AccountFragment())
-                        .commit()
-                }
+                Permission(activity).requestPermission()
             }
         }
     }

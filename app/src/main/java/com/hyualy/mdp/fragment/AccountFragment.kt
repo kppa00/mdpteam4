@@ -29,13 +29,13 @@ class AccountFragment : Fragment() {
 
         val btnLogin = view.findViewById<Button>(R.id.lobby_account_login)
         btnLogin.setOnClickListener {
-            val intentLogin = Intent(lobbyActivity, LoginActivity::class.java)
-            lobbyActivity.startActivity(intentLogin)
+            val intent = Intent(lobbyActivity, LoginActivity::class.java)
+            lobbyActivity.startActivity(intent)
         }
         val btnRegister = view.findViewById<Button>(R.id.lobby_account_register)
         btnRegister.setOnClickListener {
-            val intentRegister = Intent(lobbyActivity, RegisterActivity::class.java)
-            lobbyActivity.startActivity(intentRegister)
+            val intent = Intent(lobbyActivity, RegisterActivity::class.java)
+            lobbyActivity.startActivity(intent)
         }
     }
 }
