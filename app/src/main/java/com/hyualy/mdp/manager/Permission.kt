@@ -32,7 +32,8 @@ class Permission(private val context: Context) {
             android.Manifest.permission.ACCESS_WIFI_STATE,
             android.Manifest.permission.ACCESS_NETWORK_STATE,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.CHANGE_WIFI_STATE
         )
         var isPermissionsGranted = true
         permissions.forEach {
@@ -40,7 +41,7 @@ class Permission(private val context: Context) {
                 isPermissionsGranted = false
             }
         }
-        if (isPermissionsGranted) {
+        if (!isPermissionsGranted) {
             requestPermissions(
                 context as Activity,
                 permissions,
