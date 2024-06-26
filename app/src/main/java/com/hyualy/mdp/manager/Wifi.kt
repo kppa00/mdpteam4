@@ -22,7 +22,7 @@ import java.net.Socket
 object Wifi {
 
     private const val PORT = 5000
-    private const val IP_ADDRESS = "10.137.208.45"
+    private const val IP_ADDRESS = "192.168.137.36"
 
     fun sendData(message: String) {
         Thread {
@@ -34,23 +34,27 @@ object Wifi {
                 writer.close()
                 socket.close()
             } catch (_: Exception) {
-                println("Send Fail")
+                println("Data send Failed")
             }
         }.start()
     }
 
     fun receiveData(context: Context, callback: (String) -> Unit) {
         Thread {
-            val serverSocket = ServerSocket(PORT)
-            val clientSocket = serverSocket.accept()
-            val reader = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
-            val message = reader.readLine()
-            (context as Activity).runOnUiThread {
-                callback(message)
+            try {
+                val serverSocket = ServerSocket(PORT)
+                val clientSocket = serverSocket.accept()
+                val reader = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
+                val message = reader.readLine()
+                (context as Activity).runOnUiThread {
+                    callback(message)
+                }
+                reader.close()
+                clientSocket.close()
+                serverSocket.close()
+            } catch (_: Exception) {
+                println("Data reception failed")
             }
-            reader.close()
-            clientSocket.close()
-            serverSocket.close()
         }.start()
     }
 
@@ -58,12 +62,12 @@ object Wifi {
         val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val ssid = connectedWifiSSID(context)
         val removedQuotesSSID = removeQuotes(ssid)
-        if (wifiManager.isWifiEnabled && removedQuotesSSID == "Meister_login") {
+        if (wifiManager.isWifiEnabled && removedQuotesSSID == "aifactory") {
             (context as AppCompatActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.lobby_fragment, AccountFragment())
                 .commit()
         } else {
-            Toast.makeText(context, "Meister_login Wifi에 연결해 주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "aifactory Wifi에 연결해 주세요.", Toast.LENGTH_SHORT).show()
             val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
             context.startActivity(intent)
         }

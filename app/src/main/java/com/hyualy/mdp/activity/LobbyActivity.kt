@@ -8,6 +8,7 @@ import com.hyualy.mdp.manager.Permission
 import com.hyualy.mdp.util.Util
 
 class LobbyActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MDP)
         super.onCreate(savedInstanceState)

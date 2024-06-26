@@ -1,5 +1,6 @@
 package com.hyualy.mdp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -32,16 +33,16 @@ class RegisterActivity : AppCompatActivity() {
             if (listOf(id, password, checkPassword, name, email).all { it.isNotEmpty() }) {
                 if (password == checkPassword) {
                     Wifi.sendData("register/$id/$password/$name/$email")
-//                    Wifi.receiveData { data ->
-//                        if (data == "register/yes") {
-//                            val intent = Intent(this, ControlActivity::class.java)
-//                            startActivity(intent)
-//                            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-//                            finish()
-//                        } else if (data == "register/no") {
-//                            Toast.makeText(this, "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
+                    Wifi.receiveData(this) { data ->
+                        if (data == "register/yes") {
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                            finish()
+                        } else if (data == "register/no") {
+                            Toast.makeText(this, "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "비밀번호가 같지 않습니다.", Toast.LENGTH_SHORT).show()
                 }
