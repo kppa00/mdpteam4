@@ -1,4 +1,4 @@
-package com.hyualy.mdp.fragment
+package com.hyualy.mdp.fragment.lobby
 
 import android.os.Bundle
 import android.view.LayoutInflater

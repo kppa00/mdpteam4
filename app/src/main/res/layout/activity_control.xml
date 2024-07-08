@@ -9,14 +9,34 @@
     <ImageView
         android:id="@+id/app_logo"
         android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="fitCenter"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/ai_factory_logo"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:id="@+id/control_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="***님"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+    
+    <FrameLayout
+        android:id="@+id/control_fragment"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/control_on_box_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,13 +66,13 @@ class Permission(private val context: Context) {
     }
 
     private fun explainPermissionRationale() {
-        val sharedPref: SharedPreferences = context.getSharedPreferences("permission_count", Context.MODE_PRIVATE)
-        val bluetoothDeniedCount = sharedPref.getInt("bluetooth", Context.MODE_PRIVATE)
-        println(bluetoothDeniedCount.toString())
+        val sharedPref: SharedPreferences = context.getSharedPreferences("permission", Context.MODE_PRIVATE)
+        val deniedCount = sharedPref.getInt("wifi", Context.MODE_PRIVATE)
+        println(deniedCount.toString())
         val builder = AlertDialog.Builder(context)
         builder.setTitle("서비스 이용 알림")
-        if (bluetoothDeniedCount < 1) {
-            sharedPref.edit().putInt("bluetooth", bluetoothDeniedCount + 1).apply()
+        if (deniedCount < 1) {
+            sharedPref.edit().putInt("wifi", deniedCount + 1).apply()
             builder.setMessage("정상적인 서비스 사용을 위한 필수 권한입니다.\n권한 요청을 반드시 허용해주세요.")
             builder.setPositiveButton("권한 재요청") { _, _ ->
                 requestPermission()

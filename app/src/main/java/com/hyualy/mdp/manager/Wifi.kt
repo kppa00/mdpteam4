@@ -11,7 +11,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
-import com.hyualy.mdp.fragment.AccountFragment
+import com.hyualy.mdp.fragment.lobby.AccountFragment
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
