@@ -17,20 +17,21 @@ def serial_receive_thread():
 
     try:
         while True:
-            # 데이터 송신
+            # send data
             ser.write(b'Hello, UART!\n')
             print("Sent: Hello, UART!")
 
-            # 데이터 수신
+            # receive data
             if ser.in_waiting > 0:
                 data = ser.readline().decode().strip()
                 print(f"Received: {data}")
 
-            time.sleep(1)  # 1초 대기
+            time.sleep(1)  # wait a second
 
     except KeyboardInterrupt:
         print("Keyboard interrupt received, exiting...")
 
     finally:
-        ser.close()  # 시리얼 포트 닫기
+        # close serial port
+        ser.close()
         print("Serial port closed")
