@@ -23,6 +23,7 @@ object Wifi {
 
     private const val PORT = 5000
     private const val IP_ADDRESS = "192.168.137.36"
+    private var isReceiveRunning: Boolean = false
 
     fun sendData(message: String) {
         Thread {
@@ -40,7 +41,9 @@ object Wifi {
     }
 
     fun receiveData(context: Context, callback: (String) -> Unit) {
+        if (isReceiveRunning) { return }
         Thread {
+            isReceiveRunning = true
             try {
                 val serverSocket = ServerSocket(PORT)
                 val clientSocket = serverSocket.accept()
@@ -55,6 +58,7 @@ object Wifi {
             } catch (_: Exception) {
                 println("Data reception failed")
             }
+            isReceiveRunning = false
         }.start()
     }
 

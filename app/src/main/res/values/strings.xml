@@ -10,4 +10,9 @@
     <string name="stop">중지</string>
     <string name="name">이름</string>
     <string name="email">이메일</string>
+    <string name="good">양품 개수 : 0</string>
+    <string name="defect">불량품 개수 : 0</string>
+    <string name="logout">로그아웃</string>
+    <string name="next">다음</string>
+    <string name="wifi">와이파이</string>
 </resources>

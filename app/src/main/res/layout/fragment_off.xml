@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.control.OffFragment"
-    android:background="@drawable/control_off_box_border">
+    android:background="@drawable/control_ctrl_box_border"
+    android:backgroundTint="#AFFFAF">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/execute"
         android:gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="30sp"/>
 
 </FrameLayout>

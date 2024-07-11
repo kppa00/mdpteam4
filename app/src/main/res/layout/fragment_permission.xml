@@ -15,7 +15,8 @@
         android:src="@drawable/ai_factory_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/lobby_permission_text"
@@ -28,7 +29,8 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/lobby_permission_app_logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
 
     <View
         android:id="@+id/lobby_permission_line"
@@ -51,7 +53,8 @@
         android:src="@drawable/baseline_wifi_24"
         android:background="@drawable/edittext_border"
         app:layout_constraintTop_toBottomOf="@id/lobby_permission_line"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/lobby_permission_text2"
@@ -59,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:text="와이파이"
+        android:text="@string/wifi"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/lobby_permission_line"
@@ -70,11 +73,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:text="앱에 로그인 및 회원가입과\n기기를 제어하기 위해 권한이 필요합니다."
+        android:text="앱에 로그인 및 회원가입과\n기기를 제어하기 위해\n권한이 필요합니다."
         android:textSize="17sp"
         android:textColor="#8F8F8F"
         app:layout_constraintTop_toBottomOf="@id/lobby_permission_text2"
-        app:layout_constraintStart_toEndOf="@id/lobby_permission_bluetooth" />
+        app:layout_constraintStart_toEndOf="@id/lobby_permission_bluetooth"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/lobby_start_start"
@@ -82,8 +86,8 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="80dp"
-        android:text="다음"
+        android:layout_marginBottom="60dp"
+        android:text="@string/next"
         android:textSize="27sp"
         android:background="@drawable/gradient"
         app:backgroundTint="@null"

@@ -32,21 +32,24 @@ class RegisterActivity : AppCompatActivity() {
             }
             if (listOf(id, password, checkPassword, name, email).all { it.isNotEmpty() }) {
                 if (password == checkPassword) {
-                    Wifi.sendData("register/$id/$password/$name/$email")
-                    Wifi.receiveData(this) { data ->
-                        if (data == "register/yes") {
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-                            finish()
-                        } else if (data == "register/no") {
-                            Toast.makeText(this, "이미 등록된 아이디입니다.", Toast.LENGTH_SHORT).show()
+                    val emailRegex = "^[^@]+@[^@]+\\.[^@]+\$".toRegex()
+                    if (email.matches(emailRegex)) {
+                        Wifi.sendData("register/$id/$password/$name/$email")
+                        Wifi.receiveData(this) { data ->
+                            if (data == "register/yes") {
+                                val intent = Intent(this, LoginActivity::class.java)
+                                startActivity(intent)
+                                Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+                                finish()
+                            } else if (data == "register/no") {
+                                Toast.makeText(this, "이미 등록된 아이디입니다.", Toast.LENGTH_SHORT).show()
+                            }
                         }
+                    } else {
+                        Toast.makeText(this, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(this, "비밀번호가 같지 않습니다.", Toast.LENGTH_SHORT).show()
-                    println(password)
-                    println(checkPassword)
                 }
             } else {
                 Toast.makeText(this, "모든 양식을 채워주십시오.", Toast.LENGTH_SHORT).show()

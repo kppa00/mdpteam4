@@ -68,7 +68,7 @@ class Permission(private val context: Context) {
     private fun explainPermissionRationale() {
         val sharedPref: SharedPreferences = context.getSharedPreferences("permission", Context.MODE_PRIVATE)
         val deniedCount = sharedPref.getInt("wifi", Context.MODE_PRIVATE)
-        println(deniedCount.toString())
+//        println(deniedCount.toString())
         val builder = AlertDialog.Builder(context)
         builder.setTitle("서비스 이용 알림")
         if (deniedCount < 1) {

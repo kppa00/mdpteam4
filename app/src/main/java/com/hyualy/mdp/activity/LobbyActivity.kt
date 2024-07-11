@@ -3,8 +3,10 @@ package com.hyualy.mdp.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.hyualy.mdp.R
+import com.hyualy.mdp.fragment.lobby.AccountFragment
 import com.hyualy.mdp.fragment.lobby.StartFragment
 import com.hyualy.mdp.manager.Permission
+import com.hyualy.mdp.util.LoginUtil
 import com.hyualy.mdp.util.Util
 
 class LobbyActivity : AppCompatActivity() {
@@ -12,7 +14,13 @@ class LobbyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lobby)
-        if (savedInstanceState == null) {
+
+        if (LoginUtil.getSharedPrefData(this, "logout") == "true") {
+            LoginUtil.removeSharedPrefData(this, "logout")
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.lobby_fragment, AccountFragment())
+                .commit()
+        } else if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.lobby_fragment, StartFragment())
                 .commit()

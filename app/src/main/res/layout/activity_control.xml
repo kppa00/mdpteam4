@@ -10,9 +10,9 @@
         android:id="@+id/app_logo"
         android:layout_width="200dp"
         android:layout_height="100dp"
+        android:layout_marginTop="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ai_factory_logo"
-        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -21,22 +21,76 @@
         android:id="@+id/control_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:textSize="20sp"
         android:text="***님"
-        android:layout_marginTop="30dp"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:background="@drawable/control_name_box_border"
+        android:paddingTop="2dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
-    
+
+    <TextView
+        android:id="@+id/control_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/gradient"
+        android:text="@string/logout"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toStartOf="@id/control_name"
+        app:layout_constraintEnd_toEndOf="@id/control_name"
+        app:layout_constraintTop_toBottomOf="@id/control_name" />
+
+    <TextView
+        android:id="@+id/control_good"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/good"
+        android:textSize="40sp"
+        android:background="@drawable/control_name_box_border"
+        app:layout_constraintTop_toBottomOf="@id/app_logo"
+        app:layout_constraintStart_toStartOf="@id/control_fragment" />
+
+    <TextView
+        android:id="@+id/control_defect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/defect"
+        android:textSize="40sp"
+        android:background="@drawable/control_name_box_border"
+        app:layout_constraintTop_toBottomOf="@id/control_good"
+        app:layout_constraintStart_toStartOf="@id/control_fragment" />
+
     <FrameLayout
         android:id="@+id/control_fragment"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/control_on_box_border"
+        android:layout_marginTop="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_logo" />
+        app:layout_constraintTop_toBottomOf="@id/control_defect" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
                         LoginUtil.addSharedPrefData(this, "name", name)
 
                         Util.changeActivity(this, ControlActivity::class.java)
-                        Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "${name}님 환영합니다.", Toast.LENGTH_SHORT).show()
                     } else if (data == "login/no") {
                         Toast.makeText(this, "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show()
                     }
