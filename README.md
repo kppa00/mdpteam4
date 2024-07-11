@@ -26,7 +26,7 @@
   - HW 제작 : 04.11 ~ xx.xx
     - 벨트 제작 : 04.11 ~ xx.xx
   - SW 코딩 : 04.11 ~ xx.xx
-    - APP : 04.11 ~ xx.xx
+    - APP : 04.11 ~ 07.11
 - 테스트 : xx.xx ~ xx.xx
 - 디버깅 : xx.xx ~ xx.xx
 - 전시 및 시연 : xx.xx ~ xx.xx
