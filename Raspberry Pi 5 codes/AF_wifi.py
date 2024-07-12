@@ -31,7 +31,7 @@ def receive_data():
         s.bind((HOST, PORT))
         s.listen()
         while True:
-            # try:
+            try:
                 conn, addr = s.accept()
                 with conn:
                     print('Now time :', datetime.now().strftime('%Y.%m.%d - %H:%M:%S'))
@@ -43,5 +43,5 @@ def receive_data():
                         msg = str(data.decode())
                         print('Received from :', msg)
                         classify(msg, addr[0])
-            # except:
-            #     print("Data reception failed")
+            except:
+                print("Data reception failed")

@@ -1,7 +1,7 @@
 import threading
 import AF_database
 import AF_wifi
-from AF_serial import serial_receive_thread
+import AF_serial
 
 isRunning = False
 
@@ -36,13 +36,17 @@ def control(msg, ip):
     global isRunning
     sent_data = msg.split('/')
     if sent_data[1] == "switching" or "isRunning":
+        if sent_data[1] == "isRunning":
+            if isRunning:
+                AF_wifi.send_data("control/yes", ip)
+            else:
+                AF_wifi.send_data("control/no", ip)
         if sent_data[1] == "switching":
             isRunning = not isRunning
-            # STM32 데이터 송신
-        if isRunning:
-            AF_wifi.send_data("control/yes", ip)
-        else:
-            AF_wifi.send_data("control/no", ip)
+            if isRunning:
+                AF_serial.send_data("belton")
+            else:
+                AF_serial.send_data("beltof")
         print("Now running is :", isRunning, "\n")
 
 def bottle(msg, ip):
@@ -52,21 +56,23 @@ def bottle(msg, ip):
         print("good / defect :", str(bottle_count[0][0]) + " / " + str(bottle_count[0][1]) + "\n")
         AF_wifi.send_data(str(bottle_count[0][0]) + "/" + str(bottle_count[0][1]), ip)
 
+def belt():
+    isRunning = not isRunning
+    AF_wifi.send_data("control/belt")
+
 def defect_checker():
     print()
     # 이미지 인식
     # 전처리
     # 추론
     # DB에 결과 저장
+    # AF_serial.send_data("defect")
 
 def main():
     receive_thread = threading.Thread(target=AF_wifi.receive_data)
-    receive_thread.daemon = True
     receive_thread.start()
 
-    serial_thread = threading.Thread(target=serial_receive_thread)
-    serial_thread.daemon = True
-    serial_thread.start()
+    # AF_serial.send_data("defect")
 
 if __name__ == "__main__":
     main()

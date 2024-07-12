@@ -1,37 +1,16 @@
 import serial
-import time
+import AF_main
 
-def serial_receive_thread():
-    
-    # create serial port
-    ser = serial.Serial(
-        port="/dev/ttyAMA0",
-        baudrate=9600
-    )
+ser = serial.Serial(
+    port="/dev/ttyAMA0",
+    baudrate=9600
+)
 
-    # check for serial port is opened
-    if ser.isOpen():
-        print("Serial port is opened")
-    else:
-        print("Failed to open serial port")
+def send_data(data: str):
+    ser.write(data.encode())
 
-    try:
-        while True:
-            # send data
-            ser.write(b'Hello, UART!\n')
-            print("Sent: Hello, UART!")
-
-            # receive data
-            if ser.in_waiting > 0:
-                data = ser.readline().decode().strip()
-                print(f"Received: {data}")
-
-            time.sleep(1)
-
-    except KeyboardInterrupt:
-        print("Keyboard interrupt received, exiting...")
-
-    finally:
-        # close serial port
-        ser.close()
-        print("Serial port closed")
+def read_serial_data():
+    while True:
+        received_data = ser.readline().decode().strip()
+        if received_data == "belt":
+            AF_main.belt()
