@@ -1,5 +1,8 @@
 import cv2
 from ultralytics import YOLO
+import AF_serial
+import AF_database
+import time
 
 model = YOLO('best.pt')
 
@@ -15,6 +18,8 @@ def is_opened_camera():
 def start_camera():
     caps = []
     cap_count = 0
+    is_defective = False
+    last_bottle_time = 0
 
     for i in range(0, 11):
         cap = cv2.VideoCapture(i)
@@ -41,12 +46,29 @@ def start_camera():
             for result in results:
                 boxes = result.boxes
                 for box in boxes:
-                    x1, y1, x2, y2 = map(int, box.xyxy[0])
+                    confidence = box.conf[0]
+                    if confidence > 0.5:
+                        result_class = model.names[int(box.cls[0])]
 
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                        if result_class == "bottle":
+                            current_time = time.time()
+                            if current_time - last_bottle_time >= 1:
+                                if not is_defective:
+                                    AF_database.query("update 테이블명 set 컬럼명 = 컬럼명 +1")
+                                is_defective = False
+                            last_bottle_time = current_time
 
-                    label = f"{model.names[int(box.cls[0])]} {box.conf[0]:.2f}"
-                    cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                        if (result_class == "defect" or result == "empty") and not is_defective:
+                            is_defective = True
+                            AF_serial.send_data("defect")
+                            AF_database.query("update 테이블명 set 컬럼명 = 컬럼명 +1")
+
+                        x1, y1, x2, y2 = map(int, box.xyxy[0])
+
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+
+                        label = f"{result_class} {confidence:.2f}"
+                        cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
             cv2.imshow(f'camera{cap_num}', frame)
 
