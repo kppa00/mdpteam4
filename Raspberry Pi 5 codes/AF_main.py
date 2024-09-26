@@ -45,6 +45,7 @@ def control(msg, ip):
             isRunning = not isRunning
             if isRunning:
                 AF_serial.send_data("belton")
+                print("belton")
             else:
                 AF_serial.send_data("beltof")
         print("Now running is :", isRunning, "\n")
