@@ -2,6 +2,7 @@ import threading
 import AF_database
 import AF_wifi
 import AF_serial
+import AF_camera
 
 isRunning = False
 
@@ -61,19 +62,12 @@ def belt():
     isRunning = not isRunning
     AF_wifi.send_data("control/belt")
 
-def defect_checker():
-    print()
-    # 이미지 인식
-    # 전처리
-    # 추론
-    # DB에 결과 저장
-    # AF_serial.send_data("defect")
-
 def main():
     receive_thread = threading.Thread(target=AF_wifi.receive_data)
     receive_thread.start()
 
-    # AF_serial.send_data("defect")
+    camera_thread = threading.Thread(target=AF_camera.start_camera)
+    camera_thread.start()
 
 if __name__ == "__main__":
     main()
