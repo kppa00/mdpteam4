@@ -62,33 +62,33 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 char rx_data[6];
-uint8_t ccr = 0;
+short ccr = 950;
 uint8_t button_state = 1;
 uint8_t last_button_state = 1;
 uint8_t led_flag=0;
 uint8_t recv_data_flag = 0;  // 0 or 1
 uint8_t defect_flag = 0;     // 0 or 1
+uint8_t stop_flag = 0;
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	if (huart == &huart1) {
 		if (strcmp(rx_data, "belton") == 0) {
 			// DC motor On
 			recv_data_flag = 1;
+			stop_flag = 1;
 			led_flag = 1;
-		} else if (strcmp(rx_data, "beltof") == 0) {
+		}
+		if (strcmp(rx_data, "beltof") == 0) {
 			// DC motor OFF
 			recv_data_flag = 0;
-			led_flag=0;
+			led_flag = 0;
 		}
 		if (strcmp(rx_data, "defect") == 0) {
 			// servo motor flag on
 			led_flag=0;
 			defect_flag = 1;
-		}else if (strcmp(rx_data, "defect") == 0) {
-			// servo motor flag on
-			led_flag=0;
-			defect_flag = 0;
 		}
 		HAL_UART_Receive_IT(&huart1, (uint8_t*) rx_data, 6);
+//		HAL_UART_Transmit(&huart1, "ok", Size, Timeout)
 	}
 }
 /* USER CODE END 0 */
@@ -135,41 +135,57 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
-			if (recv_data_flag == 1) {
-				// DC motor On
-				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 2300);
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, 0);
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
-				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, 0);
-			} else if (recv_data_flag == 0) {
-				// DC motor OFF
+		if (recv_data_flag == 1) {
+			// DC motor On
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 2500);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, 0);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, 0);
+			if (stop_flag == 1) {
+				for (int i = 0; i < 70; i++) {
+					HAL_Delay(10);
+				}
 				__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
 				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, 1);
 				HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
-			}
-			if (defect_flag == 1) {
-				for (int i = 0; i < 25; i++) {
-					ccr -= 20;
-					htim4.Instance->CCR1 = ccr;
+				for (int i = 0; i < 400; i++) {
 					HAL_Delay(10);
 				}
-				HAL_Delay(5000);
-				for (int i = 0; i < 25; i++) {
-					ccr += 20;
-					htim4.Instance->CCR1 = ccr;
-					HAL_Delay(10);
-				}
+				stop_flag = 0;
 			}
+		} else if (recv_data_flag == 0) {
+			// DC motor OFF
+			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, 1);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
+		}
+		if (defect_flag == 1) {
+			for (int i = 0; i < 23; i++) {
+				ccr -= 20;
+				htim4.Instance->CCR1 = ccr;
+				HAL_Delay(10);
+			}
+			for (int i = 0; i < 200; i++) {
+				HAL_Delay(10);
+			}
+			for (int i = 0; i < 23; i++) {
+				ccr += 20;
+				htim4.Instance->CCR1 = ccr;
+				HAL_Delay(10);
+			}
+			defect_flag = 0;
+		}
 
-			button_state = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
-			if (last_button_state == 0 && last_button_state != button_state) {
-//				recv_data_flag = 0; // DCmotor stop
-				htim4.Instance->CCR1 = 480; // servo motor on
-				HAL_Delay(3000);
-				htim4.Instance->CCR1 = 900;
-			}
-			last_button_state = button_state;
+		button_state = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+		if (last_button_state == 0 && last_button_state != button_state) {
+			recv_data_flag = 0; // DCmotor stop
+//				htim4.Instance->CCR1 = 480; // servo motor on
+//				HAL_Delay(3000);
+//				htim4.Instance->CCR1 = 900;
+			HAL_UART_Receive_IT(&huart1, (uint8_t*) rx_data, 6);
+		}
+		last_button_state = button_state;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
